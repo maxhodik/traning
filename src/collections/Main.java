@@ -1,49 +1,85 @@
 package collections;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import com.company.details.Engine;
+
+import java.util.*;
+
 
 public class Main {
+//    static void foreach(Iterable list) {
+//        Iterator iterator = list.iterator();
+//        while(iterator.hasNext()) {
+//            System.out.println(iterator.next());
+//        }
+   // }
     public static void main(String[] args) {
-        List<?> a = new ArrayList<>();
-        MyArrayList my = new MyArrayList();
+        MyArrayList<Integer> my = new MyArrayList<>();
+        MyArrayList<Engine> engines = new MyArrayList<>();
+        MyArrayList<String> car = new MyArrayList<>();
+        Iterable<Integer> iter;
+        Iterator<Integer> iterator = my.iterator();
 
-        my.add(1);
-        System.out.println("size: " + my.getSize());
+
+
+
+        engines.add(new Engine("ssd","dsd"));
+//        System.out.println("size: " + my.getSize());
+
+        engines.print();
        my.add(Integer.valueOf(2));
-       System.out.println("size: " + my.getSize());
+//       System.out.println("size: " + my.getSize());
 
         my.add(Integer.valueOf(3));
+        my.add(Integer.valueOf(3));
+        my.add(Integer.valueOf(3));
+        my.add(Integer.valueOf(3));
+
+        my.print();
+
         System.out.println("size: " + my.getSize());
+       // System.out.println( my.toString());
+
         my.insert(0,0);
         System.out.println("size: " + my.getSize());
         my.insert(18,1);
         System.out.println("size: " + my.getSize());
-
         my.insert(13,2);
         System.out.println("size: " + my.getSize());
-        my.insert(7,6);
+        my.insert(7,5);
         System.out.println("size: " + my.getSize());
-        my.insert(15,7);
+        my.insert(15,6);
         System.out.println("size: " + my.getSize());
-       // my.getByIndex(2);
-//        my.delByIndex(7);
-//        my.delByIndex(2);
+        my.print();
+       // System.out.println(my.toString());
+//        for (int i = 0; i < my.getSize(); i++) {
+//            Object byIndex = my.getByIndex(i);
+//           Engine engine = (Engine) byIndex;
+//           System.out.println(engine.getCompany());
+//        }
+      //  my.show();
+
+       my.getByIndex(2);
+       my.delByIndex(1);
+       my.print();
+       //System.out.println( my.toString());
+        my.delByIndex(2);
+        my.print();
         System.out.println("size: " + my.getSize());
         Object[] objects = new Object[]{31,313,331};
-        my.addList(objects, 8);
+
+
+        System.out.print("list: ");
+        System.out.println(Arrays.toString(objects));
+        my.addList(objects, 3);
         System.out.println("size: " + my.getSize());
+        my.print();
 
-//        my.add(Integer.valueOf(4));
-//        System.out.println("size: " + my.getSize());
-//        my.add(Integer.valueOf(5));
-//        System.out.println("size: " + my.getSize());
-//        my.add(Integer.valueOf(6));
-//        System.out.println("size: " + my.getSize());
 
-        my.show();
+      //  System.arraycopy();
+
+
+
+       // my.show();
 
 //        HashMap<String, String> map = new HashMap<>();
 //        String i = "1";

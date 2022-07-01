@@ -1,8 +1,19 @@
 package collections;
 
+
 //Work with any type
-// Iterable
-public class MyArrayList {
+// [Optional] make list iterable by foreach
+//todo: 1) extend from Iterable.class
+//      2) implement method iterator
+//          1. Create class MyArrayListIterator implements Iterator<>
+//          2. init in method Iterator your MyArrayListIterator
+
+
+import java.util.Arrays;
+import java.util.Iterator;
+
+public class MyArrayList<T> implements Iterable<T> {
+
     // ins end
     // ins middle (start)
     // get by index
@@ -10,6 +21,39 @@ public class MyArrayList {
     // get size
 
     // [OPTIONAL] add List (array of elements) (addAll())
+
+    @Override
+    //       // 2) implement method iterator
+    public Iterator<T> iterator() {
+        Iterator<T> iterator = new MyIterator<>(array);
+
+        //          1. Create class MyArrayListIterator
+        //          2. init in method Iterator your MyArrayListIterator
+        return iterator;
+    }
+
+    static class MyIterator<T> implements Iterator<T> {
+        private Object[] array;
+        private int size;
+        private int i;
+
+
+        public MyIterator(Object[] array) {
+            this.array = array;
+            size = array.length;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return i <= size - 1;
+        }
+
+        @Override
+        public T next() {
+            return (T) array[i++];
+        }
+    }
+
 
     private Object[] array;
     private int size;
@@ -26,16 +70,42 @@ public class MyArrayList {
         return size;
     }
 
-    // ins end
-    public void add(Object obj) {
+    public boolean insEmpty(T obj, int insIndex) {
         if (size == 0) {
-            array[0] = obj;
+            array[insIndex] = obj;
             size++;
+            return true;
+        }
+        return false;
+
+    }
+
+    public boolean overSize(int indexIns) {
+        if (indexIns > size) {
+            System.out.println("Index > Size " + indexIns);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "MyArrayList{" +
+                "array=" + Arrays.toString(array) +
+                '}';
+    }
+public enum Suusu {jvkd,jhoe,grearg,rgwr,}
+    // ins end
+    public void add(T obj) {
+        System.out.println("add " + obj + "in the end");
+        if (insEmpty(obj, 0)) {
             return;
         }
+
         if (size < array.length) {
             array[size] = obj;
             size++;
+
             return;
         }
 
@@ -45,9 +115,8 @@ public class MyArrayList {
             //copy elements from old to new (arr -> arrNew)
             //add obj by size index
             Object[] arrayNew = new Object[size + size / 2 + 1];
-            for (int i = 0; i < array.length; i++) {
-                arrayNew[i] = array[i];
-            }
+            System.arraycopy(array, 0, arrayNew, 0, array.length);
+
             arrayNew[size] = obj;
             size++;
             array = arrayNew;
@@ -56,17 +125,12 @@ public class MyArrayList {
 
     //ins middle (start)
     // if array is empty
-    public void insert(Object obj, int indexIns) {
-        if (indexIns > size) {
-            System.out.println("Index > Size" + indexIns);
+    public void insert(T obj, int indexIns) {
+        System.out.println("add " + obj + " in the " + indexIns);
+        if (overSize(indexIns)) {
             return;
         }
 
-        if (size == 0) {
-            array[indexIns] = obj;
-            size++;
-            return;
-        }
         //insert in the middle when array is not empty
         //create new array with size /2+1
         //copy elements from old to new (arr -> arrNew)
@@ -79,87 +143,69 @@ public class MyArrayList {
         }
 
         Object[] arrayNew = new Object[array.length + n];
-        for (int i = 0; i < array.length; i++) {
-            arrayNew[i] = array[i];
-        }
-        System.out.println("after copy");
-        for (Object o : arrayNew) {
-            System.out.println("el: " + o);
-        }
-        for (int i = indexIns; i < size; i++) {
-            arrayNew[i + 1] = array[i];
-        }
-        System.out.println("after shift");
-        for (Object o : arrayNew) {
-            System.out.println("el: " + o);
-        }
+        System.arraycopy(array, 0, arrayNew, 0, array.length);
+
+
+        System.arraycopy(array, indexIns, arrayNew, indexIns + 1, size - indexIns);
+
+
         arrayNew[indexIns] = obj;
         size++;
         array = arrayNew;
     }
 
-    public void show() {
-        System.out.println(array.length);
-        for (Object o : array) {
-            System.out.println("el: " + o);
-        }
-    }
+//    public void show() {
+//        System.out.println("array length " + array.length);
+//        for (Object o : array) {
+//            System.out.println("el: " + o);
+//        }
+//    }
 
     // get by index
-    public void getByIndex(int index) {
+    public T getByIndex(int index) {
         System.out.println("el ( " + index + " ) = " + array[index]);
+        return (T) array[index];
     }
 
     // delete by index
     public void delByIndex(int index) {
-        if (index > size) {
-            System.out.println("Index > Size " + index);
+        System.out.println("DEL by index " + index);
+        if (overSize(index)) {
             return;
         }
         Object[] arrayNew = new Object[array.length];
-        if (index == 0){
-            for (int i=1;  i< size; i++ ){
-                arrayNew [i-1]= array[i];
-            }
-        } else {
-            arrayNew =array;
-            for (int i = size - 1; i > index; i--) {
-                arrayNew[i - 1] = array[i];
-
-            }
-        }
-        arrayNew[size-1]= null;
+        System.arraycopy(array, 0, arrayNew, 0, index);
+        System.arraycopy(array, index + 1, arrayNew, index, array.length - index - 1);
+        array = arrayNew;
+        array[size - 1] = null;
         size--;
-        array=arrayNew;
     }
-// [OPTIONAL] add List (array of elements) (addAll())
-    public void addList (Object [] list, int index) {
-        if (index > size) {
-            System.out.println("Index > Size " + index);
+
+    // [OPTIONAL] add List (array of elements) (addAll())
+    public void addList(Object[] list, int index) {
+        System.out.println("ADD List by index" + index);
+        if (overSize(index)) {
             return;
         }
 
         Object[] arrayNew = new Object[array.length + list.length];
-        Object[] arrayNew2 = new Object[array.length - index];
-        int j=0;
-        for (int i = index ; i < array.length; i++) {
-
-            arrayNew2[j] = array[i];
-            j++;
-        }
-        for (int i = 0; i < list.length; i++) {
-
-            arrayNew[index+i] = list[i];
-
-        }
-        for (int i = 0 ; i < arrayNew2.length; i++){
-            arrayNew [index+ list.length+i] = arrayNew2 [i];
-        }
-        for (int i= 0; i<index;  i++){
-            arrayNew[i]= array[i];
-        }
+//        Object[] arrayNew2 = new Object[array.length - index];
+        System.arraycopy(array, 0, arrayNew, 0, index);
+        System.arraycopy(list, 0, arrayNew, index, list.length);
+        System.arraycopy(array, index, arrayNew, index + list.length, size - index);
         size += list.length;
-        array=arrayNew;
+        array = arrayNew;
     }
-
+    public void print () {
+        for(Object obj : array){
+            System.out.print(obj+", ");
+            }
+        System.out.println();
+    }
+//    @Override
+//    public Iterator iterator() {
+//       // 2) implement method iterator
+//        //          1. Create class MyArrayListIterator
+//        //          2. init in method Iterator your MyArrayListIterator
+//    }
 }
