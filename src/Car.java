@@ -97,10 +97,13 @@ class Comparator<T> {
 class MainMain {
     public static void main(String[] args) {
         Comparator comparator = new Comparator();
-        Car car = new Truck("truck", "Blue");
+        Auto truck = new Truck("truck", "Blue");
         Car car1 = new Taxi("taxi", "Red");
-        List<Auto> cars = new ArrayList<>();
-        cars.add(car);
+        truck.launch();
+        car1.launch();
+
+        List<Car> cars = new ArrayList<>();
+        //cars.add(car);
         cars.add(car1);
         for (Auto auto : cars) {
             auto.launch();
